@@ -32,6 +32,14 @@ public class SQLiteHelper {
         
         createTableSQL = "CREATE TABLE IF NOT EXISTS programs (id INTEGER PRIMARY KEY AUTOINCREMENT, program_name TEXT)";
         connection.createStatement().execute(createTableSQL);
+        
+        createTableSQL = "CREATE TABLE IF NOT EXISTS choices (id INTEGER PRIMARY KEY AUTOINCREMENT, choice_name TEXT, type TEXT)";
+        connection.createStatement().execute(createTableSQL);
+        
+        createTableSQL = "CREATE TABLE IF NOT EXISTS options (id INTEGER PRIMARY KEY AUTOINCREMENT, choice_id INTEGER, option_name TEXT, CONSTRAINT fk_choice FOREIGN KEY(choice_id) REFERENCES choices(id) )";
+        connection.createStatement().execute(createTableSQL);
+        
+        
     }
     
     // Insert faculty signature information into the recommendation_signature table
@@ -83,7 +91,68 @@ public class SQLiteHelper {
         return programsList.toArray(new String[0]);
     }
     
- // Insert a semester into the semesters table
+    // Get all choices from choices table
+    public List<Choice> getAllChoices() throws SQLException {
+        String selectSQL = "SELECT * FROM choices";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        ResultSet resultSet = statement.executeQuery();
+        List<Choice> choicesList = new ArrayList<>();
+        while(resultSet.next()) {
+            choicesList.add(new Choice(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")));
+        }
+        return choicesList;
+    }
+    
+    // Get all options from options table
+    public List<Option> getAllOptions() throws SQLException {
+        String selectSQL = "SELECT * FROM Options";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        ResultSet resultSet = statement.executeQuery();
+        List<Option> optionsList = new ArrayList<>();
+        while(resultSet.next()) {
+            optionsList.add(new Option(resultSet.getInt("id"), resultSet.getInt("choice_id"),resultSet.getString("type")));
+        }
+        return optionsList;
+    }
+    
+    // Get list of all characteristics 
+    public List<Characteristic> getAllCharacteristics() throws SQLException {
+        String selectSQL = "SELECT * FROM choices";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        ResultSet resultSet = statement.executeQuery();
+        List<Characteristic> characteristicsList = new ArrayList<>();
+        while(resultSet.next()) {
+        	selectSQL = "SELECT * FROM options WHERE choice_id=" + resultSet.getInt("id");
+        	statement = connection.prepareStatement(selectSQL);
+        	ResultSet optionsResultSet = statement.executeQuery();
+        	List<Option> optionsList = new ArrayList<>();
+        	while(optionsResultSet.next()) {
+        		optionsList.add(new Option(optionsResultSet.getInt("id"),optionsResultSet.getInt("choice_id"),optionsResultSet.getString("option_name")));
+        	}
+            characteristicsList.add(new Characteristic(new Choice(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")), optionsList));
+        }
+        return characteristicsList;
+    }
+    
+    // Insert a choice into the choice table
+    public void insertChoice(String choiceName, String type) throws SQLException {
+        String insertSQL = "INSERT INTO choices (choice_name, type) VALUES (?,?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, choiceName);
+        statement.setString(2, type);
+        statement.executeUpdate();
+    }
+    
+    // Insert an option into the options table
+    public void insertOption(String optionName, int choiceId) throws SQLException {
+        String insertSQL = "INSERT INTO options (option_name, choice_id) VALUES (?,?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, optionName);
+        statement.setInt(2, choiceId);
+        statement.executeUpdate();
+    }
+    
+    // Insert a semester into the semesters table
     public void insertSemester(String semesterName) throws SQLException {
         String insertSQL = "INSERT INTO semesters (semester_name) VALUES (?)";
         PreparedStatement statement = connection.prepareStatement(insertSQL);
