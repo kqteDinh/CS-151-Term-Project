@@ -1,91 +1,115 @@
 package application;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLiteHelper {
     
-    private static Connection conn;
+    // SQLite database URL
+    private static final String URL = "jdbc:sqlite:test.db";
     
-    public static void createConnection() {
-        try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:recommendations.db");
-            System.out.println("Connection to SQLite has been established.");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    // Connection object
+    private Connection connection;
+    
+    // Constructor
+    public SQLiteHelper() throws SQLException {
+        // Create a connection to the SQLite database
+        connection = DriverManager.getConnection(URL);
+        
+        // Create tables in the database if they don't exist
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS facultyInfo (id INTEGER PRIMARY KEY AUTOINCREMENT, faculty_name TEXT, faculty_title TEXT, school_name TEXT, department_name TEXT, email TEXT, phone_number TEXT)";
+        connection.createStatement().execute(createTableSQL);
+        
+        createTableSQL = "CREATE TABLE IF NOT EXISTS semesters (id INTEGER PRIMARY KEY AUTOINCREMENT, semester_name TEXT)";
+        connection.createStatement().execute(createTableSQL);
+        
+        createTableSQL = "CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY AUTOINCREMENT, course_name TEXT)";
+        connection.createStatement().execute(createTableSQL);
+        
+        createTableSQL = "CREATE TABLE IF NOT EXISTS programs (id INTEGER PRIMARY KEY AUTOINCREMENT, program_name TEXT)";
+        connection.createStatement().execute(createTableSQL);
     }
     
-    public static void closeConnection() {
-        try {
-            if (conn != null) {
-                conn.close();
-                System.out.println("Connection to SQLite has been closed.");
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    // Insert faculty signature information into the recommendation_signature table
+    public void insertSignature(String facultyName, String facultyTitle, String schoolName, String departmentName, String email, String phoneNumber) throws SQLException {
+        String insertSQL = "INSERT INTO facultyInfo (faculty_name, faculty_title, school_name, department_name, email, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, facultyName);
+        statement.setString(2, facultyTitle);
+        statement.setString(3, schoolName);
+        statement.setString(4, departmentName);
+        statement.setString(5, email);
+        statement.setString(6, phoneNumber);
+        statement.executeUpdate();
     }
     
-    public static void createTable() {
-        try {
-            Statement stmt = conn.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS recommendations (" +
-                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                         "first_name TEXT," +
-                         "last_name TEXT," +
-                         "gender TEXT," +
-                         "school_name TEXT," +
-                         "program_name TEXT," +
-                         "semester TEXT," +
-                         "year INTEGER," +
-                         "courses TEXT," +
-                         "grades TEXT," +
-                         "personal_char TEXT," +
-                         "academic_char TEXT," +
-                         "draft TEXT)";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            System.out.println("Table 'recommendations' has been created.");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    // Get all semesters from the semesters table
+    public String[] getAllSemesters() throws SQLException {
+        String selectSQL = "SELECT * FROM semesters";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        ResultSet resultSet = statement.executeQuery();
+        List<String> semestersList = new ArrayList<>();
+        while(resultSet.next()) {
+            semestersList.add(resultSet.getString("semester_name"));
         }
+        return semestersList.toArray(new String[0]);
     }
     
-    public static void insertData(String firstName, String lastName, String gender, String schoolName, String programName, String semester, int year, String courses, String grades, String personalChar, String academicChar, String draft) {
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO recommendations (first_name, last_name, gender, school_name, program_name, semester, year, courses, grades, personal_char, academic_char, draft) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            pstmt.setString(1, firstName);
-            pstmt.setString(2, lastName);
-            pstmt.setString(3, gender);
-            pstmt.setString(4, schoolName);
-            pstmt.setString(5, programName);
-            pstmt.setString(6, semester);
-            pstmt.setInt(7, year);
-            pstmt.setString(8, courses);
-            pstmt.setString(9, grades);
-            pstmt.setString(10, personalChar);
-            pstmt.setString(11, academicChar);
-            pstmt.setString(12, draft);
-            pstmt.executeUpdate();
-            pstmt.close();
-            System.out.println("Data has been inserted.");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    // Get all courses from the courses table
+    public String[] getAllCourses() throws SQLException {
+        String selectSQL = "SELECT * FROM courses";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        ResultSet resultSet = statement.executeQuery();
+        List<String> coursesList = new ArrayList<>();
+        while(resultSet.next()) {
+            coursesList.add(resultSet.getString("course_name"));
         }
+        return coursesList.toArray(new String[0]);
     }
     
-    public static ResultSet searchData(String firstName, String lastName, int year) {
-        ResultSet rs = null;
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM recommendations WHERE first_name = ? AND last_name = ? AND year = ?");
-            pstmt.setString(1, firstName);
-            pstmt.setString(2, lastName);
-            pstmt.setInt(3, year);
-            rs = pstmt.executeQuery();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    // Get all programs from the programs table
+    public String[] getAllPrograms() throws SQLException {
+        String selectSQL = "SELECT * FROM programs";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        ResultSet resultSet = statement.executeQuery();
+        List<String> programsList = new ArrayList<>();
+        while(resultSet.next()) {
+            programsList.add(resultSet.getString("program_name"));
         }
-        return rs;
+        return programsList.toArray(new String[0]);
+    }
+    
+ // Insert a semester into the semesters table
+    public void insertSemester(String semesterName) throws SQLException {
+        String insertSQL = "INSERT INTO semesters (semester_name) VALUES (?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, semesterName);
+        statement.executeUpdate();
+    }
+
+    // Insert a course into the courses table
+    public void insertCourse(String courseName) throws SQLException {
+        String insertSQL = "INSERT INTO courses (course_name) VALUES (?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, courseName);
+        statement.executeUpdate();
+    }
+
+    // Insert a program name into the programs table
+    public void insertProgram(String programName) throws SQLException {
+        String insertSQL = "INSERT INTO programs (program_name) VALUES (?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, programName);
+        statement.executeUpdate();
+    }
+
+    // Close the connection
+    public void close() throws SQLException {
+        connection.close();
     }
     
 }
