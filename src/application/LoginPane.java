@@ -2,7 +2,6 @@ package application;
 
 import java.sql.SQLException;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
