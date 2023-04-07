@@ -23,7 +23,6 @@ import javafx.scene.text.Text;
 public class LoginPane extends BorderPane {
 	private static SQLiteHelper sql;
 	
-
     private VBox centerPane;
     
     private TextField username;

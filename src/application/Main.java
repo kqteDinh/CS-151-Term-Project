@@ -3,8 +3,11 @@ package application;
 import java.sql.SQLException;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 
 public class Main extends Application {
@@ -15,8 +18,8 @@ public class Main extends Application {
 		stg = primaryStage;
 		try {
 //			SelectorPane selector = new SelectorPane();
-			LoginPane root = new LoginPane();
-			Scene scene = new Scene(root,600,400);
+			LoginPane start = new LoginPane();
+			Scene scene = new Scene(start,600,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setScene(scene);
@@ -27,9 +30,19 @@ public class Main extends Application {
 	}
 	
 	public static void changeScene(String rootPane) {
+		BorderPane root = new BorderPane();
+		HBox topButtons = new HBox();
+		topButtons.getChildren().add(new LogoutButton());
+		topButtons.setAlignment(Pos.CENTER_RIGHT);
+		root.setTop(topButtons);
+		
 		switch (rootPane) {
 			case "selector": 
-				stg.getScene().setRoot(new SelectorPane());
+				root.setCenter(new SelectorPane());
+				stg.getScene().setRoot(root);
+				break;
+			case "login":
+				stg.getScene().setRoot(new LoginPane());
 				break;
 			default: break;
 		}
