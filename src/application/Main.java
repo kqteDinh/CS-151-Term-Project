@@ -1,35 +1,56 @@
 package application;
 	
+import java.sql.SQLException;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 
 public class Main extends Application {
+	static Stage stg;
+	static SQLiteHelper sql;
 	@Override
 	public void start(Stage primaryStage) {
+		stg = primaryStage;
 		try {
-			SQLiteHelper sql = new SQLiteHelper();
-//			BorderPane root = new BorderPane();
-			SelectorPane selector = new SelectorPane(sql.getAllCharacteristics());
-			Scene scene = new Scene(selector,600,400);
+//			SelectorPane selector = new SelectorPane();
+			LoginPane root = new LoginPane();
+			Scene scene = new Scene(root,600,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			sql.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public static void changeScene(String rootPane) {
+		switch (rootPane) {
+			case "selector": 
+				stg.getScene().setRoot(new SelectorPane());
+				break;
+			default: break;
+		}
+	}
+	
 	public static void main(String[] args) {
+		sql = SQLiteHelper.getHelper();
+//		populateDB();
 		launch(args);
+		try {
+			sql.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void populateDB() {
 		try  {
-			SQLiteHelper sql = new SQLiteHelper();
+			sql.insertPassword("default");
+			
 			sql.insertChoice("First Name", "text");
 			sql.insertChoice("Last Name", "text");
 			sql.insertChoice("Gender", "dropdown");

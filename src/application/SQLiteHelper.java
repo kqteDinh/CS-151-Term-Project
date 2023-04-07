@@ -15,31 +15,81 @@ public class SQLiteHelper {
     // Connection object
     private Connection connection;
     
+    // Singleton helper
+    private static SQLiteHelper db = new SQLiteHelper();
+    
     // Constructor
-    public SQLiteHelper() throws SQLException {
+    private SQLiteHelper() {
         // Create a connection to the SQLite database
-        connection = DriverManager.getConnection(URL);
+        try {
+			connection = DriverManager.getConnection(URL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         // Create tables in the database if they don't exist
         String createTableSQL = "CREATE TABLE IF NOT EXISTS facultyInfo (id INTEGER PRIMARY KEY AUTOINCREMENT, faculty_name TEXT, faculty_title TEXT, school_name TEXT, department_name TEXT, email TEXT, phone_number TEXT)";
-        connection.createStatement().execute(createTableSQL);
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         createTableSQL = "CREATE TABLE IF NOT EXISTS semesters (id INTEGER PRIMARY KEY AUTOINCREMENT, semester_name TEXT)";
-        connection.createStatement().execute(createTableSQL);
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         createTableSQL = "CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY AUTOINCREMENT, course_name TEXT)";
-        connection.createStatement().execute(createTableSQL);
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         createTableSQL = "CREATE TABLE IF NOT EXISTS programs (id INTEGER PRIMARY KEY AUTOINCREMENT, program_name TEXT)";
-        connection.createStatement().execute(createTableSQL);
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         createTableSQL = "CREATE TABLE IF NOT EXISTS choices (id INTEGER PRIMARY KEY AUTOINCREMENT, choice_name TEXT, type TEXT)";
-        connection.createStatement().execute(createTableSQL);
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         createTableSQL = "CREATE TABLE IF NOT EXISTS options (id INTEGER PRIMARY KEY AUTOINCREMENT, choice_id INTEGER, option_name TEXT, CONSTRAINT fk_choice FOREIGN KEY(choice_id) REFERENCES choices(id) )";
-        connection.createStatement().execute(createTableSQL);
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        createTableSQL = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)";
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         
+    }
+    
+    public static SQLiteHelper getHelper() {
+    	return db;
     }
     
     // Insert faculty signature information into the recommendation_signature table
@@ -179,6 +229,34 @@ public class SQLiteHelper {
     // Close the connection
     public void close() throws SQLException {
         connection.close();
+    }
+    
+    // Insert a user and password 
+    public void insertPassword(String password) throws SQLException {
+        String insertSQL = "INSERT INTO users (username, password) VALUES (?,?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, "admin");
+        statement.setString(2, password);
+        statement.executeUpdate();
+    }
+
+    // Update password for admin account
+    public void updatePassword(String password) throws SQLException {
+        String insertSQL = "UPDATE users SET password=? WHERE username=?";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(2, "admin");
+        statement.setString(1, password);
+        statement.executeUpdate();
+    }
+    
+    // Check if the given username and password exist in the users table
+    public boolean checkUser(String password) throws SQLException {
+        String selectSQL = "SELECT * FROM users WHERE username=? AND password=?";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        statement.setString(1, "admin");
+        statement.setString(2, password);
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet.next();
     }
     
 }

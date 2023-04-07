@@ -2,6 +2,7 @@ package application;
 
 import java.util.List;
 import java.util.Map;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javafx.scene.layout.GridPane;
@@ -9,15 +10,20 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
 public class SelectorPane extends GridPane {
+	private static SQLiteHelper sql;
+	
 	private List<Characteristic> characteristics;
 	
 	private final Map<Characteristic, Option> choices = new HashMap<>();
-	
+
 	public SelectorPane() {
-	}
-	
-	public SelectorPane(List<Characteristic> list) {
-		characteristics = list;
+		sql = SQLiteHelper.getHelper();
+		try {
+			characteristics = sql.getAllCharacteristics();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		setHgap(10);
 		setVgap(5);
