@@ -32,11 +32,15 @@ public class Main extends Application {
 	public static void changeScene(String rootPane) {
 		BorderPane root = new BorderPane();
 		HBox topButtons = new HBox();
+		topButtons.getChildren().add(new ChangePasswordButton());
 		topButtons.getChildren().add(new LogoutButton());
 		topButtons.setAlignment(Pos.CENTER_RIGHT);
 		root.setTop(topButtons);
 		
 		switch (rootPane) {
+			case "change-password":
+				stg.getScene().setRoot(new LoginPane("change"));
+				break;
 			case "selector": 
 				root.setCenter(new SelectorPane());
 				stg.getScene().setRoot(root);
