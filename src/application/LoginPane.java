@@ -34,11 +34,27 @@ public class LoginPane extends BorderPane {
     private PasswordField confirmPassword;
     private Label passwordMismatch;
     private Button newPasswordButton;
+    
+    private Text welcomeText;
 
-    public LoginPane() {
+    public LoginPane(String choice) {
     	sql = SQLiteHelper.getHelper();
     	
-    	loginView();
+    	switch (choice) {
+    		case "change":
+    			loginView();
+				centerPane.getChildren().clear();
+				resetDefault();
+				welcomeText = new Text("Set your new password below.");
+				break;
+    		default:
+    			loginView();
+    			break;
+    	}
+    }
+    
+    public LoginPane() {
+    	this("login");
     }
     
     private void loginView() {
@@ -65,7 +81,7 @@ public class LoginPane extends BorderPane {
         centerPane.setPadding(new Insets(20));
         centerPane.setPrefSize(407, 400);
         centerPane.setStyle("-fx-background-color: #E0FFFF;");
-        Text welcomeText = new Text("Welcome to our application. Please log in!");
+        welcomeText = new Text("Welcome to our application. Please log in!");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
         Label usernameLabel = new Label("Username");
         usernameLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));
@@ -90,7 +106,7 @@ public class LoginPane extends BorderPane {
     }
     
     private void resetDefault() {
-        Text welcomeText = new Text("Welcome first time user. Please set your password!");
+        welcomeText = new Text("Welcome first time user. Please set your password!");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
         Label newPasswordLabel = new Label("New password");
         newPasswordLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));
