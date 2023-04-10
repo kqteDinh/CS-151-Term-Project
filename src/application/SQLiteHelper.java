@@ -10,7 +10,7 @@ import java.util.List;
 public class SQLiteHelper {
     
     // SQLite database URL
-    private static final String URL = "jdbc:sqlite:test.db";
+    private static final String URL = "jdbc:sqlite:./src/application/test.db";
     
     // Connection object
     private Connection connection;

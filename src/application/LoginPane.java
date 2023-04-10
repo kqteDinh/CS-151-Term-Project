@@ -25,7 +25,6 @@ public class LoginPane extends BorderPane {
 	
     private VBox centerPane;
     
-    private TextField username;
     private PasswordField password;
     private Label wrongLogin;
     private Button loginButton;
@@ -62,7 +61,7 @@ public class LoginPane extends BorderPane {
         AnchorPane leftPane = new AnchorPane();
         leftPane.setPrefSize(188, 400);
         leftPane.setStyle("-fx-background-color: #FFFFFF;");
-        ImageView logo = new ImageView(new Image("file:icon.png"));
+        ImageView logo = new ImageView(new Image("file:./src/application/icon.png"));
         logo.setFitWidth(164);
         logo.setFitHeight(160);
         AnchorPane.setTopAnchor(logo, 65.0);
@@ -83,10 +82,6 @@ public class LoginPane extends BorderPane {
         centerPane.setStyle("-fx-background-color: #E0FFFF;");
         welcomeText = new Text("Welcome to our application. Please log in!");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
-        Label usernameLabel = new Label("Username");
-        usernameLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));
-        username = new TextField();
-        username.setPrefSize(226, 31);
         Label passwordLabel = new Label("Password");
         passwordLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));
         password = new PasswordField();
@@ -101,7 +96,7 @@ public class LoginPane extends BorderPane {
         wrongLogin = new Label("");
         wrongLogin.setPrefSize(264, 41);
         wrongLogin.setTextFill(Color.color(1, 0, 0));
-        centerPane.getChildren().addAll(welcomeText, usernameLabel, username, passwordLabel, password, buttonBox, wrongLogin);
+        centerPane.getChildren().addAll(welcomeText, passwordLabel, password, buttonBox, wrongLogin);
         setCenter(centerPane);
     }
     
