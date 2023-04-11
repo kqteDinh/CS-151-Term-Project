@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -26,12 +25,12 @@ public class LoginPane extends BorderPane {
     private VBox centerPane;
     
     private PasswordField password;
-    private Label wrongLogin;
+    private Label errorMessage;
     private Button loginButton;
     
+    private PasswordField oldPassword;
     private PasswordField newPassword;
     private PasswordField confirmPassword;
-    private Label passwordMismatch;
     private Button newPasswordButton;
     
     private Text welcomeText;
@@ -39,24 +38,6 @@ public class LoginPane extends BorderPane {
     public LoginPane(String choice) {
     	sql = SQLiteHelper.getHelper();
     	
-    	switch (choice) {
-    		case "change":
-    			loginView();
-				centerPane.getChildren().clear();
-				resetDefault();
-				welcomeText = new Text("Set your new password below.");
-				break;
-    		default:
-    			loginView();
-    			break;
-    	}
-    }
-    
-    public LoginPane() {
-    	this("login");
-    }
-    
-    private void loginView() {
         // Create the left side of the BorderPane
         AnchorPane leftPane = new AnchorPane();
         leftPane.setPrefSize(188, 400);
@@ -80,6 +61,27 @@ public class LoginPane extends BorderPane {
         centerPane.setPadding(new Insets(20));
         centerPane.setPrefSize(407, 400);
         centerPane.setStyle("-fx-background-color: #E0FFFF;");
+    	
+    	// Add contents to center.
+    	switch (choice) {
+    		case "change":
+    			changePasswordView();
+				break;
+    		case "default":
+    			resetDefaultView();
+    			break;
+    		case "login":
+    		default:
+    			loginView();
+    			break;
+    	}
+    }
+    
+    public LoginPane() {
+    	this("login");
+    }
+    
+    private void loginView() {
         welcomeText = new Text("Welcome to our application. Please log in!");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
         Label passwordLabel = new Label("Password");
@@ -93,14 +95,14 @@ public class LoginPane extends BorderPane {
         HBox buttonBox = new HBox(loginButton);
         buttonBox.setAlignment(Pos.CENTER);
         VBox.setVgrow(buttonBox, Priority.ALWAYS);
-        wrongLogin = new Label("");
-        wrongLogin.setPrefSize(264, 41);
-        wrongLogin.setTextFill(Color.color(1, 0, 0));
-        centerPane.getChildren().addAll(welcomeText, passwordLabel, password, buttonBox, wrongLogin);
+        errorMessage = new Label("");
+        errorMessage.setPrefSize(264, 41);
+        errorMessage.setTextFill(Color.color(1, 0, 0));
+        centerPane.getChildren().addAll(welcomeText, passwordLabel, password, buttonBox, errorMessage);
         setCenter(centerPane);
     }
     
-    private void resetDefault() {
+    private void resetDefaultView() {
         welcomeText = new Text("Welcome first time user. Please set your password!");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
         Label newPasswordLabel = new Label("New password");
@@ -111,29 +113,69 @@ public class LoginPane extends BorderPane {
         confirmPasswordLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));
         confirmPassword = new PasswordField();
         confirmPassword.setPrefSize(226, 31);
-        newPasswordButton = new Button("Login");
+        newPasswordButton = new Button("Update and Login");
+        newPasswordButton.setMinWidth(100);
         newPasswordButton.setOnAction(event -> updatePassword());
         newPasswordButton.setStyle("-fx-background-color: #1E90FF;");
         newPasswordButton.setPrefSize(133, 31);
         HBox buttonBox = new HBox(newPasswordButton);
         buttonBox.setAlignment(Pos.CENTER);
         VBox.setVgrow(buttonBox, Priority.ALWAYS);
-        passwordMismatch = new Label("");
-        passwordMismatch.setPrefSize(264, 41);
-        passwordMismatch.setTextFill(Color.color(1, 0, 0));
-        centerPane.getChildren().addAll(welcomeText, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, buttonBox, passwordMismatch);
+        errorMessage = new Label("");
+        errorMessage.setPrefSize(264, 41);
+        errorMessage.setTextFill(Color.color(1, 0, 0));
+        centerPane.getChildren().addAll(welcomeText, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, buttonBox, errorMessage);
+        setCenter(centerPane);
+    }
+    
+    private void changePasswordView() {
+        welcomeText = new Text("Change your password below.");
+        welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
+        Label oldPasswordLabel = new Label("Old password");
+        oldPasswordLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));
+        oldPassword = new PasswordField();
+        oldPassword.setPrefSize(226, 31);
+        Label newPasswordLabel = new Label("New password");
+        newPasswordLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));
+        newPassword = new PasswordField();
+        newPassword.setPrefSize(226, 31);
+        Label confirmPasswordLabel = new Label("Confirm password");
+        confirmPasswordLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));
+        confirmPassword = new PasswordField();
+        confirmPassword.setPrefSize(226, 31);
+        newPasswordButton = new Button("Change Password");
+        newPasswordButton.setOnAction(event -> changePassword());
+        newPasswordButton.setStyle("-fx-background-color: #1E90FF;");
+        newPasswordButton.setPrefSize(133, 31);
+        HBox buttonBox = new HBox(newPasswordButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        VBox.setVgrow(buttonBox, Priority.ALWAYS);
+        errorMessage = new Label("");
+        errorMessage.setPrefSize(264, 41);
+        errorMessage.setTextFill(Color.color(1, 0, 0));
+        centerPane.getChildren().addAll(welcomeText, oldPasswordLabel, oldPassword, newPasswordLabel, newPassword, confirmPasswordLabel, confirmPassword, buttonBox, errorMessage);
+        setCenter(centerPane);
     }
 
-    private void updatePassword() {
+    private void userLogin() {
     	try {
-    		System.out.println("Comparing passwords!");
-			if(newPassword.getText().equals(confirmPassword.getText())) {
-				sql.updatePassword(newPassword.getText());
-				passwordMismatch.setText("Password updated!");
-				Main.changeScene("selector");
+			if(sql.checkUser(password.getText())) {
+				errorMessage.setText("");
+				if(sql.checkUser("p")) {
+					centerPane.getChildren().clear();
+					resetDefaultView();
+				}
+				else {
+					Main.changeScene("selector");
+				}
 			}
 			else {
-				passwordMismatch.setText("Passwords do not match.");
+				if(sql.checkUser("p")) {
+					errorMessage.setText("The default password is 'p'!");
+				}
+				else {
+					errorMessage.setText("Password is not correct.");
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -141,20 +183,39 @@ public class LoginPane extends BorderPane {
 		}
     }
     
-    private void userLogin() {
+    private void changePassword() {
     	try {
-			if(sql.checkUser(password.getText())) {
-				wrongLogin.setText("");
-				if(sql.checkUser("default")) {
-					centerPane.getChildren().clear();
-					resetDefault();
-				}
-				else {
-					Main.changeScene("selector");
-				}
+    		System.out.println("Comparing passwords!");
+    		if(sql.checkUser(oldPassword.getText())) {
+    			if(!newPassword.getText().equals("") && newPassword.getText().equals(confirmPassword.getText())) {
+    				sql.updatePassword(newPassword.getText());
+    				errorMessage.setText("Password updated!");
+    				Main.changeScene("selector");
+    			}
+    			else {
+    				errorMessage.setText("New passwords must match and cannot be blank.");
+    			}
+    		}
+    		else {
+    			errorMessage.setText("Old password is not correct.");
+    		}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    private void updatePassword() {
+    	try {
+    		System.out.println("Comparing passwords!");
+			if(newPassword.getText().equals(confirmPassword.getText())) {
+				sql.updatePassword(newPassword.getText());
+				errorMessage.setText("Password updated!");
+				Main.changeScene("selector");
 			}
 			else {
-				wrongLogin.setText("Username or password did not match.");
+				errorMessage.setText("Passwords do not match.");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
