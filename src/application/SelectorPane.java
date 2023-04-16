@@ -6,6 +6,7 @@ import java.util.List;
 import java.sql.SQLException;
 
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
@@ -205,12 +206,18 @@ public class SelectorPane extends GridPane {
 		academicE.setTextFill(Color.color(1, 0, 0));
 		add(academicE, 3, 10);
 		
+		HBox buttonBox = new HBox();
+		
+		Button cancel = new Button("Cancel");
+		
 		Button compile = new Button("Compile");
         compile.setOnAction(event -> {
         	if(flagRequiredFields()) {
         		compileLetter();
     		}});
-        add(compile, 2, 10);
+        
+        buttonBox.getChildren().addAll(cancel,compile);
+        add(buttonBox, 1, 11);
 	}
 	
 	public Boolean flagRequiredFields() {
