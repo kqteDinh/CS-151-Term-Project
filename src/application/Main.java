@@ -3,6 +3,7 @@ package application;
 import java.sql.SQLException;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -17,7 +18,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		stg = primaryStage;
 		try {
-//			SelectorPane selector = new SelectorPane();
 			LoginPane start = new LoginPane();
 			Scene scene = new Scene(start,600,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -31,6 +31,7 @@ public class Main extends Application {
 	
 	public static void changeScene(String rootPane) {
 		BorderPane root = new BorderPane();
+		root.setPadding(new Insets(10, 20, 10, 20));
 		HBox topButtons = new HBox();
 		topButtons.getChildren().add(new ChangePasswordButton());
 		topButtons.getChildren().add(new LogoutButton());
@@ -43,10 +44,10 @@ public class Main extends Application {
 				break;
 			case "selector": 
 				root.setCenter(new SelectorPane());
-				stg.getScene().setRoot(root);
+				stg.setScene(new Scene(root, 750,600));
 				break;
 			case "login":
-				stg.getScene().setRoot(new LoginPane());
+				stg.setScene(new Scene(new LoginPane(), 600,400));
 				break;
 			default: break;
 		}
@@ -66,7 +67,7 @@ public class Main extends Application {
 	
 	public static void populateDB() {
 		try  {
-			sql.insertPassword("default");
+			sql.insertPassword("p");
 			
 			sql.insertChoice("First Name", "text");
 			sql.insertChoice("Last Name", "text");

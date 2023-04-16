@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,6 +37,7 @@ public class SelectorPane extends GridPane {
 		
         for (Characteristic characteristic : characteristics) {
         	Label label = new Label(characteristic.getChoice().getName()+ ": ");
+        	label.setMinWidth(180);
         	switch (characteristic.getChoice().getType()) {
         		case "text": 
         			TextField textField = new TextField();
@@ -57,23 +59,32 @@ public class SelectorPane extends GridPane {
                 	comboBoxText.getItems().addAll(characteristic.getOptions());
                 	comboBoxText.setPromptText("Select an option");
                     comboBoxText.setOnAction(event -> choices.put(characteristic, comboBoxText.getValue()));
+                    VBox dTextBox = new VBox();
+                    Label dTextLabel = new Label("Year Taken:");
                     TextField dText = new TextField();
+                    dTextBox.getChildren().addAll(dTextLabel, dText);
                     add(comboBoxText, 1, i);
-                    add(dText, 2, i);
+                    add(dTextBox, 2, i);
                     break;
         		case "multi":
                     ListView<Option> multiList = new ListView<>();
                 	multiList.getItems().addAll(characteristic.getOptions());
                 	multiList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//                	multiList.setMinHeight(150);
                     add(multiList, 1, i);
                     break;
         		case "multitext":
                     ListView<Option> multiListText = new ListView<>();
                 	multiListText.getItems().addAll(characteristic.getOptions());
                 	multiListText.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-                	TextField mText = new TextField();
+//                	multiListText.setMinHeight(100);
+                    VBox mTextBox = new VBox();
+                    Label mTextLabel = new Label("Grades (in order, separate with commas):");
+                    mTextLabel.setMinWidth(250);
+                    TextField mText = new TextField();
+                    mTextBox.getChildren().addAll(mTextLabel, mText);
                     add(multiListText, 1, i);
-                    add(mText, 2, i);
+                    add(mTextBox, 2, i);
         			break;
         		default: break;
         	}
