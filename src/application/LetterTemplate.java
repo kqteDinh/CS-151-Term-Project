@@ -4,7 +4,7 @@ import java.util.List;
 
 public class LetterTemplate {
 	public static String compileLetter(String firstName, String lastName, String gender,
-			String date, String program, String firstSemester, String firstCourse, 
+			String date, String program, String firstSemester, String year, String firstCourse, 
 			String firstGrade, List<String> courses, List<String> grades, List<String> academics,
 			List<String> personals, FacultyInfo faculty) {
 		
@@ -35,7 +35,7 @@ public class LetterTemplate {
 			"\n\nTo: Graduate Admissions Committee " +
 			"\n\nI am writing this letter to recommend my former student " + fullName +  
 			" who is applying for the " + program + " in your school." +
-			"\n\nI met " + firstName + " in " + firstSemester + " when " + lPronoun + " enrolled in my \"" + 
+			"\n\nI met " + firstName + " in " + firstSemester + " " + year + " when " + lPronoun + " enrolled in my \"" + 
 			firstCourse + "\" course.\n" +
 			firstName + " earned " + firstGrade + 
 			" from this tough course, and this shows how knowledgeable and hard worker " + lPronoun + " is.\n\n";

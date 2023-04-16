@@ -55,7 +55,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		sql = SQLiteHelper.getHelper();
-		populateDB();
+//		populateDB();
 		launch(args);
 		try {
 			sql.close();
