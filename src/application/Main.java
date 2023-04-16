@@ -55,7 +55,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		sql = SQLiteHelper.getHelper();
-//		populateDB();
+		populateDB();
 		launch(args);
 		try {
 			sql.close();
@@ -75,6 +75,7 @@ public class Main extends Application {
 			sql.insertChoice("Target School", "text");
 			sql.insertChoice("Date", "date");
 			sql.insertChoice("Program", "dropdown");
+			sql.insertChoice("First Course and Grade", "droptext");
 			sql.insertChoice("First Semester and Year", "droptext");
 			sql.insertChoice("All Other Courses and Grades", "multitext");
 			sql.insertChoice("Personal Characteristics", "multi");
@@ -88,31 +89,41 @@ public class Main extends Application {
 			sql.insertOption("Masters of Business Administration (MBA)", 6);
 			sql.insertOption(" Doctor of philosophy (PhD)", 6);
 			
-			sql.insertOption("Spring", 7);
-			sql.insertOption("Fall", 7);
-			sql.insertOption("Summer", 7);
-			sql.insertOption("Winter", 7);
+			sql.insertOption("CS151: Object-Oriented Design", 7);
+			sql.insertOption("CS166: Information Security", 7);
+			sql.insertOption("CS154: Theory of Computation", 7);
+			sql.insertOption("CS160: Software Engineering", 7);
+			sql.insertOption("CS256: Cryptography", 7);
+			sql.insertOption("CS146: Data Structures and Algorithms", 7);
+			sql.insertOption("CS152: Programming Languages Paradigm", 7);
 			
-			sql.insertOption("CS151: Object-Oriented Design", 8);
-			sql.insertOption("CS166: Information Security", 8);
-			sql.insertOption("CS154: Theory of Computation", 8);
-			sql.insertOption("CS160: Software Engineering", 8);
-			sql.insertOption("CS256: Cryptography", 8);
-			sql.insertOption("CS146: Data Structures and Algorithms", 8);
-			sql.insertOption("CS152: Programming Languages Paradigm", 8);
+			sql.insertOption("Spring", 8);
+			sql.insertOption("Fall", 8);
+			sql.insertOption("Summer", 8);
+			sql.insertOption("Winter", 8);
 			
-			sql.insertOption("very passionate", 9);
-			sql.insertOption("very enthusiastic", 9);
-			sql.insertOption("punctual", 9);
-			sql.insertOption("attentive", 9);
-			sql.insertOption("polite", 9);
+			sql.insertOption("CS151: Object-Oriented Design", 9);
+			sql.insertOption("CS166: Information Security", 9);
+			sql.insertOption("CS154: Theory of Computation", 9);
+			sql.insertOption("CS160: Software Engineering", 9);
+			sql.insertOption("CS256: Cryptography", 9);
+			sql.insertOption("CS146: Data Structures and Algorithms", 9);
+			sql.insertOption("CS152: Programming Languages Paradigm", 9);
 			
-			sql.insertOption("submitted well-written assignments", 10);
-			sql.insertOption("participated in all of my class activities", 10);
-			sql.insertOption("worked hard", 10);
-			sql.insertOption("was very well prepared for every exam and assignment", 10);
-			sql.insertOption("picked up new skills quickly", 10);
-			sql.insertOption("was able to excel academically at the top of my class", 10);
+			sql.insertOption("very passionate", 10);
+			sql.insertOption("very enthusiastic", 10);
+			sql.insertOption("punctual", 10);
+			sql.insertOption("attentive", 10);
+			sql.insertOption("polite", 10);
+			
+			sql.insertOption("submitted well-written assignments", 11);
+			sql.insertOption("participated in all of my class activities", 11);
+			sql.insertOption("worked hard", 11);
+			sql.insertOption("was very well prepared for every exam and assignment", 11);
+			sql.insertOption("picked up new skills quickly", 11);
+			sql.insertOption("was able to excel academically at the top of my class", 11);
+			
+			sql.insertFaculty("Ahmad Yazdankhah","Lecturer","SJSU","CS department","ahmad.yazdankhah@sjsu.edu","(123) 456-7890");
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());

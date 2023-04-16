@@ -4,16 +4,16 @@ import java.util.List;
 
 public class Characteristic {
 
-    private Choice choice;
+    private Category category;
     private List<Option> options;
     
-    public Characteristic(Choice choice, List<Option> options) {
-    	this.choice = choice;
+    public Characteristic(Category category, List<Option> options) {
+    	this.category = category;
     	this.options = options;
     }
 
-    public Choice getChoice() {
-        return choice;
+    public Category getChoice() {
+        return category;
     }
 
     public List<Option> getOptions() {

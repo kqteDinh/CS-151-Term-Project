@@ -142,13 +142,13 @@ public class SQLiteHelper {
     }
     
     // Get all choices from choices table
-    public List<Choice> getAllChoices() throws SQLException {
+    public List<Category> getAllChoices() throws SQLException {
         String selectSQL = "SELECT * FROM choices";
         PreparedStatement statement = connection.prepareStatement(selectSQL);
         ResultSet resultSet = statement.executeQuery();
-        List<Choice> choicesList = new ArrayList<>();
+        List<Category> choicesList = new ArrayList<>();
         while(resultSet.next()) {
-            choicesList.add(new Choice(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")));
+            choicesList.add(new Category(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")));
         }
         return choicesList;
     }
@@ -179,7 +179,7 @@ public class SQLiteHelper {
         	while(optionsResultSet.next()) {
         		optionsList.add(new Option(optionsResultSet.getInt("id"),optionsResultSet.getInt("choice_id"),optionsResultSet.getString("option_name")));
         	}
-            characteristicsList.add(new Characteristic(new Choice(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")), optionsList));
+            characteristicsList.add(new Characteristic(new Category(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")), optionsList));
         }
         return characteristicsList;
     }
@@ -258,5 +258,24 @@ public class SQLiteHelper {
         ResultSet resultSet = statement.executeQuery();
         return resultSet.next();
     }
+
+	public FacultyInfo getFaculty() throws SQLException {
+        String selectSQL = "SELECT * FROM facultyInfo";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        ResultSet resultSet = statement.executeQuery();
+        return new FacultyInfo(resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),resultSet.getString(5),resultSet.getString(6), resultSet.getString(7));
+	}
+	
+	public void insertFaculty(String name, String title, String school, String department, String email, String phone) throws SQLException {
+        String insertSQL = "INSERT into facultyInfo (faculty_name, faculty_title, school_name, department_name, email, phone_number) VALUES (?,?,?,?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, name);
+        statement.setString(2, title);        
+        statement.setString(3, school);
+        statement.setString(4, department);        
+        statement.setString(5, email);
+        statement.setString(6, phone);
+        statement.executeUpdate();
+	}
     
 }
