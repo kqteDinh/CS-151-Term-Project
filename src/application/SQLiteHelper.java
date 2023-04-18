@@ -85,6 +85,14 @@ public class SQLiteHelper {
 			e.printStackTrace();
 		}
         
+        createTableSQL = "CREATE TABLE IF NOT EXISTS letter (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, date TEXT, content TEXT)";
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         
     }
     
@@ -278,7 +286,30 @@ public class SQLiteHelper {
         statement.executeUpdate();
 	}
 	
-	
+	public List<Letter> getAllLetters() throws SQLException {
+	    String selectSQL = "SELECT * FROM letter";
+	    PreparedStatement statement = connection.prepareStatement(selectSQL);
+	    ResultSet resultSet = statement.executeQuery();
+	    List<Letter> lettersList = new ArrayList<>();
+	    while(resultSet.next()) {
+	        int id = resultSet.getInt("id");
+	        String name = resultSet.getString("name");
+	        String date = resultSet.getString("date");
+	        String content = resultSet.getString("content");
+	        Letter letter = new Letter(id, name, date, content);
+	        lettersList.add(letter);
+	    }
+	    return lettersList;
+	}
+
+	public void updateLetter(Letter letter) throws SQLException {
+	    String updateSQL = "UPDATE letter SET content = ? WHERE id = ?";
+	    PreparedStatement statement = connection.prepareStatement(updateSQL);
+	    statement.setString(1, letter.getContent());
+	    statement.setInt(2, letter.getId());
+	    statement.executeUpdate();
+	}
+
 	// Delete a letter from the letters table
 	public void deleteLetter(int letterId) throws SQLException {
 	    String deleteSQL = "DELETE FROM letters WHERE id=?";
