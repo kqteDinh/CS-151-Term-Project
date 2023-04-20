@@ -85,6 +85,14 @@ public class SQLiteHelper {
 			e.printStackTrace();
 		}
         
+        createTableSQL = "CREATE TABLE IF NOT EXISTS letter (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, date TEXT, content TEXT)";
+        try {
+			connection.createStatement().execute(createTableSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         
     }
     
@@ -142,13 +150,13 @@ public class SQLiteHelper {
     }
     
     // Get all choices from choices table
-    public List<Choice> getAllChoices() throws SQLException {
+    public List<Category> getAllChoices() throws SQLException {
         String selectSQL = "SELECT * FROM choices";
         PreparedStatement statement = connection.prepareStatement(selectSQL);
         ResultSet resultSet = statement.executeQuery();
-        List<Choice> choicesList = new ArrayList<>();
+        List<Category> choicesList = new ArrayList<>();
         while(resultSet.next()) {
-            choicesList.add(new Choice(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")));
+            choicesList.add(new Category(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")));
         }
         return choicesList;
     }
@@ -179,7 +187,7 @@ public class SQLiteHelper {
         	while(optionsResultSet.next()) {
         		optionsList.add(new Option(optionsResultSet.getInt("id"),optionsResultSet.getInt("choice_id"),optionsResultSet.getString("option_name")));
         	}
-            characteristicsList.add(new Characteristic(new Choice(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")), optionsList));
+            characteristicsList.add(new Characteristic(new Category(resultSet.getInt("id"), resultSet.getString("choice_name"),resultSet.getString("type")), optionsList));
         }
         return characteristicsList;
     }
@@ -258,5 +266,56 @@ public class SQLiteHelper {
         ResultSet resultSet = statement.executeQuery();
         return resultSet.next();
     }
+
+	public FacultyInfo getFaculty() throws SQLException {
+        String selectSQL = "SELECT * FROM facultyInfo";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        ResultSet resultSet = statement.executeQuery();
+        return new FacultyInfo(resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),resultSet.getString(5),resultSet.getString(6), resultSet.getString(7));
+	}
+	
+	public void insertFaculty(String name, String title, String school, String department, String email, String phone) throws SQLException {
+        String insertSQL = "INSERT into facultyInfo (faculty_name, faculty_title, school_name, department_name, email, phone_number) VALUES (?,?,?,?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(insertSQL);
+        statement.setString(1, name);
+        statement.setString(2, title);        
+        statement.setString(3, school);
+        statement.setString(4, department);        
+        statement.setString(5, email);
+        statement.setString(6, phone);
+        statement.executeUpdate();
+	}
+	
+	public List<Letter> getAllLetters() throws SQLException {
+	    String selectSQL = "SELECT * FROM letter";
+	    PreparedStatement statement = connection.prepareStatement(selectSQL);
+	    ResultSet resultSet = statement.executeQuery();
+	    List<Letter> lettersList = new ArrayList<>();
+	    while(resultSet.next()) {
+	        int id = resultSet.getInt("id");
+	        String name = resultSet.getString("name");
+	        String date = resultSet.getString("date");
+	        String content = resultSet.getString("content");
+	        Letter letter = new Letter(id, name, date, content);
+	        lettersList.add(letter);
+	    }
+	    return lettersList;
+	}
+
+	public void updateLetter(Letter letter) throws SQLException {
+	    String updateSQL = "UPDATE letter SET content = ? WHERE id = ?";
+	    PreparedStatement statement = connection.prepareStatement(updateSQL);
+	    statement.setString(1, letter.getContent());
+	    statement.setInt(2, letter.getId());
+	    statement.executeUpdate();
+	}
+
+	// Delete a letter from the letters table
+	public void deleteLetter(int letterId) throws SQLException {
+	    String deleteSQL = "DELETE FROM letters WHERE id=?";
+	    PreparedStatement statement = connection.prepareStatement(deleteSQL);
+	    statement.setInt(1, letterId);
+	    statement.executeUpdate();
+	}
     
 }
