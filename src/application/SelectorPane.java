@@ -44,7 +44,6 @@ public class SelectorPane extends GridPane {
 	private Label fCourseE;
 	private ComboBox<Option> fCourseC;
 	private Label fGradeL;
-	private Label fGradeE;
 	private TextField fGradeC;
 	private Label fSemL;
 	private Label fSemE;
@@ -208,7 +207,7 @@ public class SelectorPane extends GridPane {
 		
 		HBox buttonBox = new HBox();
 		
-		Button cancel = new Button("Cancel");
+		Button cancel = new CancelButton();
 		
 		Button compile = new Button("Compile");
         compile.setOnAction(event -> {
@@ -339,13 +338,10 @@ public class SelectorPane extends GridPane {
 					fGradeC.getText(),courseSelections, grades, 
 					academicSelections, personalSelections,sql.getFaculty());
 			System.out.println(returnedLetter);
+			Main.changeScene("edit", new Letter(Integer.MAX_VALUE, fNameC.getText() + " " + lNameC.getText(), dateC.getValue().toString(), returnedLetter));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		// TODO send letter and metadata to editing pane for finalization
-		
-
 	}
 }
