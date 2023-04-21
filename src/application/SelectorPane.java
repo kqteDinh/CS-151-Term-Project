@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.sql.SQLException;
 
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -214,8 +216,10 @@ public class SelectorPane extends GridPane {
         	if(flagRequiredFields()) {
         		compileLetter();
     		}});
+        compile.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
         
         buttonBox.getChildren().addAll(cancel,compile);
+        buttonBox.setSpacing(10);
         add(buttonBox, 1, 11);
 	}
 	

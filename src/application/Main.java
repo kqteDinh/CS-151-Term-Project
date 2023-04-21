@@ -40,6 +40,7 @@ public class Main extends Application {
 		topButtons.getChildren().add(new ChangePasswordButton());
 		topButtons.getChildren().add(new LogoutButton());
 		topButtons.setAlignment(Pos.CENTER_RIGHT);
+		topButtons.setSpacing(10);
 		root.setTop(topButtons);
 		
 		switch (rootPane) {
@@ -59,6 +60,10 @@ public class Main extends Application {
 				stg.setScene(new Scene(root, 750,600));
 				break;
 			case "home":
+				root.setCenter(new HomePane());
+				stg.setScene(new Scene(root, 750,600));
+				break;
+			case "search":
 			case "login":
 				stg.setScene(new Scene(new LoginPane(), 600,400));
 				break;
