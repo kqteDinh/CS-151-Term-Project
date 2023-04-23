@@ -309,6 +309,15 @@ public class SQLiteHelper {
 	    statement.setInt(2, letter.getId());
 	    statement.executeUpdate();
 	}
+	
+	public void insertLetter(Letter letter) throws SQLException {
+	    String insertSQL = "INSERT into letter (name, date, content) VALUES (?,?,?)";
+	    PreparedStatement statement = connection.prepareStatement(insertSQL);
+	    statement.setString(1, letter.getName());
+	    statement.setString(2, letter.getDate());
+	    statement.setString(3, letter.getContent());
+	    statement.executeUpdate();
+	}
 
 	// Delete a letter from the letters table
 	public void deleteLetter(int letterId) throws SQLException {

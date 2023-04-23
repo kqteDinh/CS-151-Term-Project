@@ -30,22 +30,40 @@ public class Main extends Application {
 	}
 	
 	public static void changeScene(String rootPane) {
+		changeScene(rootPane, null);
+	}
+	
+	public static void changeScene(String rootPane, Object argument) {
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10, 20, 10, 20));
 		HBox topButtons = new HBox();
 		topButtons.getChildren().add(new ChangePasswordButton());
 		topButtons.getChildren().add(new LogoutButton());
 		topButtons.setAlignment(Pos.CENTER_RIGHT);
+		topButtons.setSpacing(10);
 		root.setTop(topButtons);
 		
 		switch (rootPane) {
 			case "change-password":
 				stg.getScene().setRoot(new LoginPane("change"));
 				break;
+			case "edit":
+				root.setCenter(new EditField((Letter) argument));
+				HBox bottomButtons = new HBox();
+				bottomButtons.getChildren().add(new CancelButton());
+				bottomButtons.getChildren().add(new FinalizeButton((Letter) argument));
+				root.setBottom(bottomButtons);
+				stg.setScene(new Scene(root, 750,600));
+				break;
 			case "selector": 
 				root.setCenter(new SelectorPane());
 				stg.setScene(new Scene(root, 750,600));
 				break;
+			case "home":
+				root.setCenter(new HomePane());
+				stg.setScene(new Scene(root, 750,600));
+				break;
+			case "search":
 			case "login":
 				stg.setScene(new Scene(new LoginPane(), 600,400));
 				break;

@@ -5,11 +5,12 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
-public class ChangePasswordButton extends Button {
-	public ChangePasswordButton() {
-		this.setText("Change Password");
-		this.setOnAction(event -> {
-			Main.changeScene("change-password");
+public class NewLetterButton extends Button {
+	NewLetterButton() {
+		this.setText("Create a letter");
+		this.setMinWidth(200);
+		this.setOnAction(e -> {
+			Main.changeScene("selector");
 		});
 		this.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
 	}

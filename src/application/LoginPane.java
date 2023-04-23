@@ -166,7 +166,7 @@ public class LoginPane extends BorderPane {
 					resetDefaultView();
 				}
 				else {
-					Main.changeScene("selector");
+					Main.changeScene("home");
 				}
 			}
 			else {
@@ -190,7 +190,7 @@ public class LoginPane extends BorderPane {
     			if(!newPassword.getText().equals("") && newPassword.getText().equals(confirmPassword.getText())) {
     				sql.updatePassword(newPassword.getText());
     				errorMessage.setText("Password updated!");
-    				Main.changeScene("selector");
+    				Main.changeScene("home");
     			}
     			else {
     				errorMessage.setText("New passwords must match and cannot be blank.");
@@ -212,7 +212,7 @@ public class LoginPane extends BorderPane {
 			if(newPassword.getText().equals(confirmPassword.getText())) {
 				sql.updatePassword(newPassword.getText());
 				errorMessage.setText("Password updated!");
-				Main.changeScene("selector");
+				Main.changeScene("home");
 			}
 			else {
 				errorMessage.setText("Passwords do not match.");

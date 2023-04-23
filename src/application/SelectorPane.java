@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.sql.SQLException;
 
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -44,7 +46,6 @@ public class SelectorPane extends GridPane {
 	private Label fCourseE;
 	private ComboBox<Option> fCourseC;
 	private Label fGradeL;
-	private Label fGradeE;
 	private TextField fGradeC;
 	private Label fSemL;
 	private Label fSemE;
@@ -208,15 +209,17 @@ public class SelectorPane extends GridPane {
 		
 		HBox buttonBox = new HBox();
 		
-		Button cancel = new Button("Cancel");
+		Button cancel = new CancelButton();
 		
 		Button compile = new Button("Compile");
         compile.setOnAction(event -> {
         	if(flagRequiredFields()) {
         		compileLetter();
     		}});
+        compile.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
         
         buttonBox.getChildren().addAll(cancel,compile);
+        buttonBox.setSpacing(10);
         add(buttonBox, 1, 11);
 	}
 	
@@ -339,13 +342,10 @@ public class SelectorPane extends GridPane {
 					fGradeC.getText(),courseSelections, grades, 
 					academicSelections, personalSelections,sql.getFaculty());
 			System.out.println(returnedLetter);
+			Main.changeScene("edit", new Letter(Integer.MAX_VALUE, fNameC.getText() + " " + lNameC.getText(), dateC.getValue().toString(), returnedLetter));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		// TODO send letter and metadata to editing pane for finalization
-		
-
 	}
 }
