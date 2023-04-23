@@ -3,12 +3,12 @@ package application;
 import java.util.List;
 
 public class LetterTemplate {
-	public static String compileLetter(String firstName, String lastName, String gender,
+	public static String compileLetter(/*String firstName,*/ String lastName, String gender,
 			String date, String program, String firstSemester, String year, String firstCourse, 
 			String firstGrade, List<String> courses, List<String> grades, List<String> academics,
 			List<String> personals, FacultyInfo faculty) {
 		
-		String fullName = firstName + " " + lastName;
+		String fullName =/* firstName + " " +*/ lastName;
 		String uPronoun, lPronoun, oPronoun;
 		switch(gender) {
 		case "Male":
@@ -35,9 +35,9 @@ public class LetterTemplate {
 			"\n\nTo: Graduate Admissions Committee " +
 			"\n\nI am writing this letter to recommend my former student " + fullName +  
 			" who is applying for the " + program + " in your school." +
-			"\n\nI met " + firstName + " in " + firstSemester + " " + year + " when " + lPronoun + " enrolled in my \"" + 
+			"\n\nI met "/* + firstName*/ + " in " + firstSemester + " " + year + " when " + lPronoun + " enrolled in my \"" + 
 			firstCourse + "\" course.\n" +
-			firstName + " earned " + firstGrade + 
+			/*firstName +*/ " earned " + firstGrade + 
 			" from this tough course, and this shows how knowledgeable and hard worker " + lPronoun + " is.\n\n";
 			
 		if(courses != null && courses.size() > 0) {
@@ -62,27 +62,31 @@ public class LetterTemplate {
 		
 		if(academics != null)  {
 			if (academics.size() > 1) {
-				toReturn += firstName + " ";
+				//toReturn += firstName + " ";
+				toReturn += lastName + " ";
 				for(int i = 0; i < academics.size() - 1; i++) {
 					toReturn += academics.get(i) + ", ";
 				}
 				toReturn += "and " + academics.get(academics.size() - 1) + ".\n\n";
 			}
 			else if(academics.size() == 1) {
-				toReturn += firstName + " " + academics.get(0) + ".\n\n";
+				//toReturn += firstName + " " 
+						toReturn += lastName + " " + academics.get(0) + ".\n\n";
 			}
 		}
 		
 		if(personals != null)  {
 			if (personals.size() > 1) {
-				toReturn += firstName + " was always ";
+				//toReturn += firstName + "was always ";
+				toReturn += lastName + " " + "was always ";
 				for(int i = 0; i < personals.size() - 1; i++) {
 					toReturn += personals.get(i) + ", ";
 				}
 				toReturn += "and " + personals.get(personals.size() - 1) + ".\n\n";
 			}
 			else if(personals.size() == 1) {
-				toReturn += firstName + " was always " + personals.get(0) + ".\n\n";
+				//toReturn += firstName + " was always " + personals.get(0) + ".\n\n";
+				toReturn += lastName + " was always " + personals.get(0) + ".\n\n";
 			}
 		}
 		
@@ -91,7 +95,7 @@ public class LetterTemplate {
 				uPronoun + " worked effectively with the team members and delegated " + 
 				"tasks appropriately. They were able to deliver a successful project in " +
 				"a timely fashion." +
-				"\n\nI believe that " + firstName + " has the capacity to excel at higher " +
+				"\n\nI believe that " + /*firstName*/lastName + " has the capacity to excel at higher " +
 				"education program and this is my pleasure to highly recommend " + oPronoun + "." +
 				"\n\nPlease do not hesitate to contact me with further questions." +
 				"\n\nVery Respectfully,\n" + faculty.getName() + "\n" + faculty.getTitle() +

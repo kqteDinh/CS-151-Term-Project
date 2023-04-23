@@ -33,10 +33,16 @@ public class Main extends Application {
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10, 20, 10, 20));
 		HBox topButtons = new HBox();
+		//HBox bottomButtons = new HBox();
 		topButtons.getChildren().add(new ChangePasswordButton());
 		topButtons.getChildren().add(new LogoutButton());
+		topButtons.getChildren().add(new SearchButton());
+		//bottomButtons.getChildren().add(new SearchButton());
+		//bottomButtons.setAlignment(Pos.CENTER_LEFT);
 		topButtons.setAlignment(Pos.CENTER_RIGHT);
+		topButtons.setSpacing(10);
 		root.setTop(topButtons);
+		//root.setBottom(bottomButtons);
 		
 		switch (rootPane) {
 			case "change-password":
@@ -49,13 +55,21 @@ public class Main extends Application {
 			case "login":
 				stg.setScene(new Scene(new LoginPane(), 600,400));
 				break;
+			case "home":
+				root.setCenter(new HomePane());
+				stg.setScene(new Scene(root, 750,600));
+				break;
+			case "search" :
+				root.setCenter(new SearchPane());
+				stg.setScene(new Scene(new SearchPane(), 600,400));
+				break;
 			default: break;
 		}
 	}
 	
 	public static void main(String[] args) {
 		sql = SQLiteHelper.getHelper();
-//		populateDB();
+		populateDB();
 		launch(args);
 		try {
 			sql.close();

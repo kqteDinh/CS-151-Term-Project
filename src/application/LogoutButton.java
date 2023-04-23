@@ -6,7 +6,7 @@ public class LogoutButton extends Button {
 	public LogoutButton() {
 		this.setText("Logout");
 		this.setOnAction(event -> {
-			Main.changeScene("login");
+			Main.changeScene("search");
 		});
 	}
 }

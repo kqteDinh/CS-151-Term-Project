@@ -124,6 +124,17 @@ public class SQLiteHelper {
         }
         return semestersList.toArray(new String[0]);
     }
+    // Get files related to student according to last name
+    public String[] getFileByLastName(String lastName) throws SQLException {
+    	String selectSQL = "SELECT * FROM users WHERE username=?";
+    	PreparedStatement statement = connection.prepareStatement(selectSQL);
+    	ResultSet resultSet = statement.executeQuery();
+        List<String> lastNameList = new ArrayList<>();
+        while(resultSet.next()) {
+        	lastNameList.add(resultSet.getString("name"));
+        }
+        return lastNameList.toArray(new String[0]);
+    }
     
     // Get all courses from the courses table
     public String[] getAllCourses() throws SQLException {
@@ -265,6 +276,15 @@ public class SQLiteHelper {
         statement.setString(2, password);
         ResultSet resultSet = statement.executeQuery();
         return resultSet.next();
+    }
+    
+    //check if given last name exists in the table
+    public boolean checkLastName(String lastName) throws SQLException{
+    	String selectSQL = "SELECT * FROM letter WHERE name =?";
+    	PreparedStatement statement = connection.prepareStatement(selectSQL);
+    	statement.setString(1, lastName);
+    	ResultSet resultSet = statement.executeQuery();
+    	return resultSet.next();
     }
 
 	public FacultyInfo getFaculty() throws SQLException {

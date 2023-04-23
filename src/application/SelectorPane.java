@@ -6,6 +6,8 @@ import java.util.List;
 import java.sql.SQLException;
 
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -215,8 +217,10 @@ public class SelectorPane extends GridPane {
         	if(flagRequiredFields()) {
         		compileLetter();
     		}});
+        compile.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
         
         buttonBox.getChildren().addAll(cancel,compile);
+        buttonBox.setSpacing(10);
         add(buttonBox, 1, 11);
 	}
 	
@@ -332,8 +336,8 @@ public class SelectorPane extends GridPane {
 		List<String> grades = new ArrayList<String>(Arrays.asList(gradesC.getText().split("\\s*,\\s*")));
 		
 		try {
-			
-			String returnedLetter = LetterTemplate.compileLetter(fNameC.getText(), lNameC.getText(), 
+			//remember to re-add fNamec.getText() to param for returnedLetter
+			String returnedLetter = LetterTemplate.compileLetter(lNameC.getText(), 
 					genderC.getValue().getName(), dateC.getValue().toString(),
 					programC.getValue().getName(), fSemC.getValue().getName(), yearC.getText(), fCourseC.getValue().getName(),
 					fGradeC.getText(),courseSelections, grades, 
