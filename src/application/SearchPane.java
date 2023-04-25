@@ -24,12 +24,11 @@ public class SearchPane extends BorderPane{
 	
 	private Text lastName;
 	private Label errorMessage;
-	private VBox centerPane;
 	private Button searchButton;
 	private Text searchText;
 	
 	public SearchPane() {
-		
+		searchView();
 		
 	}
 	private void searchView(){
@@ -43,6 +42,8 @@ public class SearchPane extends BorderPane{
         searchButton.setOnAction(event -> searchForLetter());
         searchButton.setStyle("-fx-background-color: #1E90FF;");
         searchButton.setPrefSize(133, 31);
+        leftPane.getChildren().addAll(searchText, searchButton);
+        setLeft(leftPane);
 	}
 	
 	private void searchForLetter() {

@@ -1,6 +1,6 @@
 package application;
 	
-import java.sql.SQLException;
+import java.sql.SQLException; 
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -61,7 +61,7 @@ public class Main extends Application {
 				break;
 			case "search" :
 				root.setCenter(new SearchPane());
-				stg.setScene(new Scene(new SearchPane(), 600,400));
+				stg.setScene(new Scene(new SearchPane(), 300,400));
 				break;
 			default: break;
 		}

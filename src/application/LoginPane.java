@@ -1,6 +1,6 @@
 package application;
-
-import java.sql.SQLException;
+import javafx.application.Application;
+import java.sql.SQLException; 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -81,7 +81,7 @@ public class LoginPane extends BorderPane {
     }
     
     private void loginView() {
-        welcomeText = new Text("Welcome to our application. Please log in!");
+        welcomeText = new Text("Welcome to the application. Please log in!");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
         Label passwordLabel = new Label("Password");
         passwordLabel.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18));

@@ -321,6 +321,24 @@ public class SQLiteHelper {
 	    }
 	    return lettersList;
 	}
+	/*
+	 Get letter function just for name itself
+	 	public List<Letter> getSpecificLetter() throws SQLException {
+	    String selectSQL = "SELECT * FROM letter WHERE name = ?";
+	    PreparedStatement statement = connection.prepareStatement(selectSQL);
+	    ResultSet resultSet = statement.executeQuery();
+	    List<Letter> lettersList = new ArrayList<>();
+	    while(resultSet.next()) {
+	        int id = resultSet.getInt("id");
+	        String name = resultSet.getString("name");
+	        String date = resultSet.getString("date");
+	        String content = resultSet.getString("content");
+	        Letter letter = new Letter(id, name, date, content);
+	        lettersList.add(letter);
+	    }
+	    return lettersList;
+	}
+	 */
 
 	public void updateLetter(Letter letter) throws SQLException {
 	    String updateSQL = "UPDATE letter SET content = ? WHERE id = ?";
