@@ -83,7 +83,7 @@ public class Main extends Application {
 		}
 	}
 	
-	public static void populateDB() {
+	private static void populateDB() {
 		try  {
 			sql.insertPassword("p");
 			

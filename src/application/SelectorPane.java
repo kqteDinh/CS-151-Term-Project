@@ -223,7 +223,7 @@ public class SelectorPane extends GridPane {
         add(buttonBox, 1, 11);
 	}
 	
-	public Boolean flagRequiredFields() {
+	private Boolean flagRequiredFields() {
 		Boolean toReturn = true;
 		if(personalC.getSelectionModel().getSelectedItems().size() < 1) {
 			personalE.setText("* Select at least one.");
@@ -316,7 +316,7 @@ public class SelectorPane extends GridPane {
 		return toReturn;
 	}
 	
-	public void compileLetter() {
+	private void compileLetter() {
 		List<String> personalSelections = new ArrayList<String>();
 		for(Option o : personalC.getSelectionModel().getSelectedItems()) {
 			personalSelections.add(o.getName());
