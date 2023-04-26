@@ -8,6 +8,7 @@ package application;
  public class CancelButton extends Button {
  	public CancelButton() {
  		this.setText("Cancel");
+ 		this.setMinWidth(100);
  		this.setOnAction(event -> {
  			Main.changeScene("home");
  		});

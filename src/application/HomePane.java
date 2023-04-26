@@ -24,7 +24,9 @@ package application;
          bannerBox.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
 
  		VBox buttonsBox = new VBox();
- 		buttonsBox.getChildren().addAll(new NewLetterButton(), new SearchLettersButton());
+ 		SearchButton searchButton = new SearchButton();
+ 		searchButton.setMinWidth(200);
+ 		buttonsBox.getChildren().addAll(new NewLetterButton(), searchButton);
  		buttonsBox.setSpacing(10);
  		HBox contentBox = new HBox();
  		Label greetingLabel = new Label("Welcome to PLS, Please start your journey with create a new letter!");

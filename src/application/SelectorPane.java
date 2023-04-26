@@ -210,16 +210,15 @@ public class SelectorPane extends GridPane {
 		
 		HBox buttonBox = new HBox();
 		
-		Button cancel = new Button("Cancel");
-		
 		Button compile = new Button("Compile");
         compile.setOnAction(event -> {
         	if(flagRequiredFields()) {
         		compileLetter();
     		}});
+        compile.setMinWidth(100);
         compile.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
         
-        buttonBox.getChildren().addAll(cancel,compile);
+        buttonBox.getChildren().addAll(new CancelButton(),compile);
         buttonBox.setSpacing(10);
         add(buttonBox, 1, 11);
 	}
