@@ -373,7 +373,7 @@ public class SQLiteHelper {
 
 	// Delete a letter from the letters table
 	public void deleteLetter(int letterId) throws SQLException {
-	    String deleteSQL = "DELETE FROM letters WHERE id=?";
+	    String deleteSQL = "DELETE FROM letter WHERE id=?";
 	    PreparedStatement statement = connection.prepareStatement(deleteSQL);
 	    statement.setInt(1, letterId);
 	    statement.executeUpdate();
