@@ -10,7 +10,7 @@ public class LogoutButton extends Button {
 		this.setText("Logout");
 		this.setMinWidth(100);
 		this.setOnAction(event -> {
-			Main.changeScene("search");
+			Main.changeScene("login");
 		});
 		this.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
 	}

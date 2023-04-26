@@ -50,6 +50,7 @@ public class SearchPane extends HBox{
 		errorMessage.setWrapText(true);
 		errorMessage.setTextFill(Color.color(1, 0, 0));
         leftPane.getChildren().addAll(searchText, lastName, searchButton, errorMessage);
+        leftPane.setSpacing(10);
         getChildren().add(leftPane);
         
         results = new VBox();
