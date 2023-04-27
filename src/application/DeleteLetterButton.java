@@ -1,12 +1,16 @@
 package application;
 
 import javafx.scene.control.Button;
+
 import javafx.scene.control.ButtonType;
 
 import java.sql.SQLException;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 
 public class DeleteLetterButton extends Button {
 
@@ -15,6 +19,9 @@ public class DeleteLetterButton extends Button {
 
     public DeleteLetterButton(int id) {
         super("Delete");
+
+ 		this.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
+ 		this.setMinWidth(100);
 
         this.id = id;
 
@@ -27,6 +34,7 @@ public class DeleteLetterButton extends Button {
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     deleteLetter();
+                    Main.changeScene("home");
                 }
             });
         });

@@ -7,8 +7,8 @@ import javafx.scene.paint.Color;
 
 public class NewLetterButton extends Button {
 	NewLetterButton() {
-		this.setText("Create a letter");
-		this.setMinWidth(200);
+ 		this.setText("Create a letter");
+ 		this.setMinWidth(200);
 		this.setOnAction(e -> {
 			Main.changeScene("selector");
 		});

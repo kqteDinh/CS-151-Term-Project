@@ -1,6 +1,6 @@
 package application;
 	
-import java.sql.SQLException;
+import java.sql.SQLException; 
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -34,6 +34,7 @@ public class Main extends Application {
 	}
 	
 	public static void changeScene(String rootPane, Object argument) {
+		int defaultHeight = 900, defaultWidth = 600;
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10, 20, 10, 20));
 		HBox topButtons = new HBox();
@@ -41,31 +42,47 @@ public class Main extends Application {
 		topButtons.getChildren().add(new LogoutButton());
 		topButtons.setAlignment(Pos.CENTER_RIGHT);
 		topButtons.setSpacing(10);
+		topButtons.setPadding(new Insets(0, 0, 10, 0));
 		root.setTop(topButtons);
 		
+		HBox bottomButtons = new HBox();
+		bottomButtons.setAlignment(Pos.CENTER_RIGHT);
+		bottomButtons.setSpacing(10);
+		bottomButtons.setPadding(new Insets(10, 0, 0, 0));
+
 		switch (rootPane) {
 			case "change-password":
 				stg.getScene().setRoot(new LoginPane("change"));
 				break;
 			case "edit":
 				root.setCenter(new EditField((Letter) argument));
-				HBox bottomButtons = new HBox();
 				bottomButtons.getChildren().add(new CancelButton());
 				bottomButtons.getChildren().add(new FinalizeButton((Letter) argument));
 				root.setBottom(bottomButtons);
-				stg.setScene(new Scene(root, 750,600));
-				break;
-			case "selector": 
-				root.setCenter(new SelectorPane());
-				stg.setScene(new Scene(root, 750,600));
+				stg.setScene(new Scene(root, defaultHeight,defaultWidth));
 				break;
 			case "home":
 				root.setCenter(new HomePane());
-				stg.setScene(new Scene(root, 750,600));
+				stg.setScene(new Scene(root, defaultHeight,defaultWidth));
 				break;
-			case "search":
 			case "login":
 				stg.setScene(new Scene(new LoginPane(), 600,400));
+				break;
+			case "selector": 
+				root.setCenter(new SelectorPane((Letter) argument));
+				stg.setScene(new Scene(root, defaultHeight,defaultWidth));
+				break;
+			case "search" :
+				root.setCenter(new SearchPane());
+				bottomButtons.getChildren().add(new CancelButton());
+				root.setBottom(bottomButtons);
+				stg.setScene(new Scene(root, defaultHeight,defaultWidth));
+				break;
+			case "view":
+				root.setCenter(new ViewField((Letter) argument));
+				bottomButtons.getChildren().add(new CancelButton());
+				root.setBottom(bottomButtons);
+				stg.setScene(new Scene(root, defaultHeight,defaultWidth));
 				break;
 			default: break;
 		}

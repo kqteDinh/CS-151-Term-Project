@@ -23,6 +23,7 @@ public class SelectorPane extends GridPane {
 	private static SQLiteHelper sql;
 	
 	private List<Characteristic> characteristics;
+	private Letter letter;
 	
 	private Label fNameL;
 	private Label fNameE;
@@ -64,7 +65,8 @@ public class SelectorPane extends GridPane {
 	private Label academicE;
 	private ListView<Option> academicC;
 
-	public SelectorPane() {
+	public SelectorPane(Letter letter) {
+		letter = this.letter;
 		sql = SQLiteHelper.getHelper();
 		try {
 			characteristics = sql.getAllCharacteristics();
@@ -209,16 +211,15 @@ public class SelectorPane extends GridPane {
 		
 		HBox buttonBox = new HBox();
 		
-		Button cancel = new CancelButton();
-		
 		Button compile = new Button("Compile");
         compile.setOnAction(event -> {
         	if(flagRequiredFields()) {
         		compileLetter();
     		}});
+        compile.setMinWidth(100);
         compile.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
         
-        buttonBox.getChildren().addAll(cancel,compile);
+        buttonBox.getChildren().addAll(new CancelButton(),compile);
         buttonBox.setSpacing(10);
         add(buttonBox, 1, 11);
 	}
@@ -245,7 +246,12 @@ public class SelectorPane extends GridPane {
 		for(Option o : coursesC.getSelectionModel().getSelectedItems()) {
 			courseSelections.add(o.getName());
 		}
-		List<String> grades = new ArrayList<String>(Arrays.asList(gradesC.getText().split("\\s*,\\s*")));
+		List<String> grades = new ArrayList<String>();
+		for(String s : gradesC.getText().split("\\s*,\\s*")) {
+			if(!s.equals("")) {
+				grades.add(s);
+			}
+		}
 		
 		if(courseSelections.size() != grades.size()) {
 			coursesE.setText("* Number of courses and number of grades must match.");
@@ -335,14 +341,16 @@ public class SelectorPane extends GridPane {
 		List<String> grades = new ArrayList<String>(Arrays.asList(gradesC.getText().split("\\s*,\\s*")));
 		
 		try {
-			
 			String returnedLetter = LetterTemplate.compileLetter(fNameC.getText(), lNameC.getText(), 
 					genderC.getValue().getName(), dateC.getValue().toString(),
 					programC.getValue().getName(), fSemC.getValue().getName(), yearC.getText(), fCourseC.getValue().getName(),
 					fGradeC.getText(),courseSelections, grades, 
 					academicSelections, personalSelections,sql.getFaculty());
-			System.out.println(returnedLetter);
-			Main.changeScene("edit", new Letter(Integer.MAX_VALUE, fNameC.getText() + " " + lNameC.getText(), dateC.getValue().toString(), returnedLetter));
+			int letterId = Integer.MAX_VALUE;
+			if(letter != null) {
+				letterId = letter.getId();
+			}
+			Main.changeScene("edit", new Letter(letterId, fNameC.getText(), lNameC.getText(), dateC.getValue().toString(), schoolC.getText(), programC.getValue().getName(), returnedLetter));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -63,6 +63,7 @@ public class LetterTemplate {
 		if(academics != null)  {
 			if (academics.size() > 1) {
 				toReturn += firstName + " ";
+				toReturn += lastName + " ";
 				for(int i = 0; i < academics.size() - 1; i++) {
 					toReturn += academics.get(i) + ", ";
 				}

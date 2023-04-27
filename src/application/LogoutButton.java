@@ -8,9 +8,10 @@ import javafx.scene.paint.Color;
 public class LogoutButton extends Button {
 	public LogoutButton() {
 		this.setText("Logout");
+		this.setMinWidth(100);
 		this.setOnAction(event -> {
 			Main.changeScene("login");
 		});
-		this.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+		this.setBackground(new Background(new BackgroundFill(Color.web("#87CEEB",1.0), null, null)));
 	}
 }

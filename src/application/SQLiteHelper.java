@@ -85,7 +85,7 @@ public class SQLiteHelper {
 			e.printStackTrace();
 		}
         
-        createTableSQL = "CREATE TABLE IF NOT EXISTS letter (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, date TEXT, content TEXT)";
+        createTableSQL = "CREATE TABLE IF NOT EXISTS letter (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, date TEXT, school TEXT, program TEXT, content TEXT)";
         try {
 			connection.createStatement().execute(createTableSQL);
 		} catch (SQLException e) {
@@ -123,6 +123,17 @@ public class SQLiteHelper {
             semestersList.add(resultSet.getString("semester_name"));
         }
         return semestersList.toArray(new String[0]);
+    }
+    // Get files related to student according to last name
+    public String[] getFileByLastName(String lastName) throws SQLException {
+    	String selectSQL = "SELECT * FROM users WHERE username=?";
+    	PreparedStatement statement = connection.prepareStatement(selectSQL);
+    	ResultSet resultSet = statement.executeQuery();
+        List<String> lastNameList = new ArrayList<>();
+        while(resultSet.next()) {
+        	lastNameList.add(resultSet.getString("name"));
+        }
+        return lastNameList.toArray(new String[0]);
     }
     
     // Get all courses from the courses table
@@ -266,6 +277,15 @@ public class SQLiteHelper {
         ResultSet resultSet = statement.executeQuery();
         return resultSet.next();
     }
+    
+    //check if given last name exists in the table
+    public boolean checkLastName(String lastName) throws SQLException{
+    	String selectSQL = "SELECT * FROM letter WHERE lastName =?";
+    	PreparedStatement statement = connection.prepareStatement(selectSQL);
+    	statement.setString(1, lastName);
+    	ResultSet resultSet = statement.executeQuery();
+    	return resultSet.next();
+    }
 
 	public FacultyInfo getFaculty() throws SQLException {
         String selectSQL = "SELECT * FROM facultyInfo";
@@ -293,35 +313,67 @@ public class SQLiteHelper {
 	    List<Letter> lettersList = new ArrayList<>();
 	    while(resultSet.next()) {
 	        int id = resultSet.getInt("id");
-	        String name = resultSet.getString("name");
+	        String firstName = resultSet.getString("firstName");
+	        String lastName = resultSet.getString("lastName");
 	        String date = resultSet.getString("date");
+	        String school = resultSet.getString("school");
+	        String program = resultSet.getString("program");
 	        String content = resultSet.getString("content");
-	        Letter letter = new Letter(id, name, date, content);
+	        Letter letter = new Letter(id, firstName, lastName, date, school, program, content);
+	        lettersList.add(letter);
+	    }
+	    return lettersList;
+	}
+
+	 	public List<Letter> getLettersByLastName(String lName) throws SQLException {
+	    String selectSQL = "SELECT * FROM letter WHERE lastName = ?";
+	    PreparedStatement statement = connection.prepareStatement(selectSQL);
+	    statement.setString(1, lName);
+	    ResultSet resultSet = statement.executeQuery();
+	    List<Letter> lettersList = new ArrayList<>();
+	    while(resultSet.next()) {
+	        int id = resultSet.getInt("id");
+	        String firstName = resultSet.getString("firstName");
+	        String lastName = resultSet.getString("lastName");
+	        String date = resultSet.getString("date");
+	        String school = resultSet.getString("school");
+	        String program = resultSet.getString("program");
+	        String content = resultSet.getString("content");
+	        Letter letter = new Letter(id, firstName, lastName, date, school, program, content);
 	        lettersList.add(letter);
 	    }
 	    return lettersList;
 	}
 
 	public void updateLetter(Letter letter) throws SQLException {
-	    String updateSQL = "UPDATE letter SET content = ? WHERE id = ?";
+	    String updateSQL = "UPDATE letter SET firstName = ?, lastName = ?,  "
+	    		+ "date = ?, school = ?, program = ?, content =?) WHERE id=?";
 	    PreparedStatement statement = connection.prepareStatement(updateSQL);
-	    statement.setString(1, letter.getContent());
-	    statement.setInt(2, letter.getId());
+	    statement.setString(1, letter.getFirstName());
+	    statement.setString(2, letter.getLastName());
+	    statement.setString(3, letter.getDate());
+	    statement.setString(4, letter.getSchool());
+	    statement.setString(5, letter.getProgram());
+	    statement.setString(6, letter.getContent());
+	    statement.setInt(7, letter.getId());
 	    statement.executeUpdate();
 	}
 	
 	public void insertLetter(Letter letter) throws SQLException {
-	    String insertSQL = "INSERT into letter (name, date, content) VALUES (?,?,?)";
+	    String insertSQL = "INSERT into letter (firstName, lastName, date, school, program, content) VALUES (?,?,?,?,?,?)";
 	    PreparedStatement statement = connection.prepareStatement(insertSQL);
-	    statement.setString(1, letter.getName());
-	    statement.setString(2, letter.getDate());
-	    statement.setString(3, letter.getContent());
+	    statement.setString(1, letter.getFirstName());
+	    statement.setString(2, letter.getLastName());
+	    statement.setString(3, letter.getDate());
+	    statement.setString(4, letter.getSchool());
+	    statement.setString(5, letter.getProgram());
+	    statement.setString(6, letter.getContent());
 	    statement.executeUpdate();
 	}
 
 	// Delete a letter from the letters table
 	public void deleteLetter(int letterId) throws SQLException {
-	    String deleteSQL = "DELETE FROM letters WHERE id=?";
+	    String deleteSQL = "DELETE FROM letter WHERE id=?";
 	    PreparedStatement statement = connection.prepareStatement(deleteSQL);
 	    statement.setInt(1, letterId);
 	    statement.executeUpdate();

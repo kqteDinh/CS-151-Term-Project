@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 public class ChangePasswordButton extends Button {
 	public ChangePasswordButton() {
 		this.setText("Change Password");
+		this.setMinWidth(100);
 		this.setOnAction(event -> {
 			Main.changeScene("change-password");
 		});
