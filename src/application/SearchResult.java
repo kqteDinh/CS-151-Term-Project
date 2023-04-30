@@ -7,9 +7,10 @@ import javafx.scene.layout.ColumnConstraints;
 
 
 public class SearchResult extends GridPane {
-	Letter letter;
+	private Letter letter;
 	
-	SearchResult(Letter letter) {
+	// Display search results along with UI buttons to edit, view, or delete.
+	public SearchResult(Letter letter) {
 		this.letter = letter;
 		Label name = new Label(this.letter.getName());
 		add(name, 0, 0);

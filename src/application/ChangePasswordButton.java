@@ -6,6 +6,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
 public class ChangePasswordButton extends Button {
+
+	// When clicked, this button redirects the user to the login pane and displays the change password view.
 	public ChangePasswordButton() {
 		this.setText("Change Password");
 		this.setMinWidth(100);

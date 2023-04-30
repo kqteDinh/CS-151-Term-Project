@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 public class Main extends Application {
 	static Stage stg;
 	static SQLiteHelper sql;
+	// Start application in login mode.
 	@Override
 	public void start(Stage primaryStage) {
 		stg = primaryStage;
@@ -29,10 +30,12 @@ public class Main extends Application {
 		}
 	}
 	
+	// Change scene with no arguments
 	public static void changeScene(String rootPane) {
 		changeScene(rootPane, null);
 	}
 	
+	// Change scene with an optional argument
 	public static void changeScene(String rootPane, Object argument) {
 		int defaultHeight = 900, defaultWidth = 600;
 		BorderPane root = new BorderPane();
@@ -100,7 +103,8 @@ public class Main extends Application {
 		}
 	}
 	
-	public static void populateDB() {
+	// Used to populate a new database, useful for testing and deployment
+	private static void populateDB() {
 		try  {
 			sql.insertPassword("p");
 			

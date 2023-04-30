@@ -5,6 +5,7 @@ import javafx.scene.control.TextArea;
 public class EditField extends TextArea {
 	private Letter letter;
 
+	// This pane displays the text of a letter in an editable text box.
 	public EditField(Letter letter) {
 		super();
 		this.setWrapText(true);

@@ -17,6 +17,7 @@ public class DeleteLetterButton extends Button {
 	private SQLiteHelper helper = SQLiteHelper.getHelper();
 	private int id;
 
+	// This button lets a user delete a letter, then redirects them to the home pane.
     public DeleteLetterButton(int id) {
         super("Delete");
 

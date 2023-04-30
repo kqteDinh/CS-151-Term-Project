@@ -6,6 +6,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
 public class ViewLetterButton extends Button {
+	// This button redirects the user to the view pane.
  	public ViewLetterButton(Letter letter) {
  		this.setText("View Letter");
  		this.setMinWidth(100);

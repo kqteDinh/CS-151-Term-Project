@@ -65,6 +65,7 @@ public class SelectorPane extends GridPane {
 	private Label academicE;
 	private ListView<Option> academicC;
 
+	// Create the UI components to collect all choices from the user.
 	public SelectorPane(Letter letter) {
 		letter = this.letter;
 		sql = SQLiteHelper.getHelper();
@@ -224,7 +225,8 @@ public class SelectorPane extends GridPane {
         add(buttonBox, 1, 11);
 	}
 	
-	public Boolean flagRequiredFields() {
+	// Flag required fields that do not meet necessary criteria
+	private Boolean flagRequiredFields() {
 		Boolean toReturn = true;
 		if(personalC.getSelectionModel().getSelectedItems().size() < 1) {
 			personalE.setText("* Select at least one.");
@@ -322,7 +324,8 @@ public class SelectorPane extends GridPane {
 		return toReturn;
 	}
 	
-	public void compileLetter() {
+	// Handle compiling letter, check for necessary data first. If successful, redirect to edit pane.
+	private void compileLetter() {
 		List<String> personalSelections = new ArrayList<String>();
 		for(Option o : personalC.getSelectionModel().getSelectedItems()) {
 			personalSelections.add(o.getName());

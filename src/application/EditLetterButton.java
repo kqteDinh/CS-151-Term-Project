@@ -6,6 +6,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
 public class EditLetterButton extends Button {
+
+	// When clicked, this button redirects the user to the edit pane.
  	public EditLetterButton(Letter letter) {
  		this.setText("Edit Letter");
  		this.setMinWidth(100);

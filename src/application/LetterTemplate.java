@@ -3,6 +3,7 @@ package application;
 import java.util.List;
 
 public class LetterTemplate {
+	// Fills in the provided template with the passed in choices.
 	public static String compileLetter(String firstName, String lastName, String gender,
 			String date, String program, String firstSemester, String year, String firstCourse, 
 			String firstGrade, List<String> courses, List<String> grades, List<String> academics,

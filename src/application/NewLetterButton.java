@@ -6,7 +6,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
 public class NewLetterButton extends Button {
-	NewLetterButton() {
+
+	// When clicked, this button redirects the user to the selector pane.
+	public NewLetterButton() {
  		this.setText("Create a letter");
  		this.setMinWidth(200);
 		this.setOnAction(e -> {

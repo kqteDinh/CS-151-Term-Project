@@ -6,7 +6,9 @@ package application;
  import javafx.scene.paint.Color;
 
  public class CancelButton extends Button {
- 	public CancelButton() {
+ 	
+	// When clicked, this button redirects the user to the home pane.
+	public CancelButton() {
  		this.setText("Cancel");
  		this.setMinWidth(100);
  		this.setOnAction(event -> {

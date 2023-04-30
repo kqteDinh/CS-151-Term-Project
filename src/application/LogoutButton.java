@@ -6,6 +6,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
 public class LogoutButton extends Button {
+	// This button redirects the user to the login pane.
 	public LogoutButton() {
 		this.setText("Logout");
 		this.setMinWidth(100);
