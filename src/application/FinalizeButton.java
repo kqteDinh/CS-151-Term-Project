@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 
 public class FinalizeButton extends Button {
 	
-	
+	// This button saves a letter in the database then redirects to the home pane.
 	public FinalizeButton(Letter letter) {
 		this.setText("Finalize and Save");
 		this.setMinWidth(100);

@@ -287,6 +287,7 @@ public class SQLiteHelper {
     	return resultSet.next();
     }
 
+    // Get the signature for a letter
 	public FacultyInfo getFaculty() throws SQLException {
         String selectSQL = "SELECT * FROM facultyInfo";
         PreparedStatement statement = connection.prepareStatement(selectSQL);
@@ -294,6 +295,7 @@ public class SQLiteHelper {
         return new FacultyInfo(resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),resultSet.getString(5),resultSet.getString(6), resultSet.getString(7));
 	}
 	
+    // Insert faculty signature information to the database.
 	public void insertFaculty(String name, String title, String school, String department, String email, String phone) throws SQLException {
         String insertSQL = "INSERT into facultyInfo (faculty_name, faculty_title, school_name, department_name, email, phone_number) VALUES (?,?,?,?,?,?)";
         PreparedStatement statement = connection.prepareStatement(insertSQL);
@@ -306,6 +308,7 @@ public class SQLiteHelper {
         statement.executeUpdate();
 	}
 	
+    // Get all letters stored in the database.
 	public List<Letter> getAllLetters() throws SQLException {
 	    String selectSQL = "SELECT * FROM letter";
 	    PreparedStatement statement = connection.prepareStatement(selectSQL);
@@ -325,26 +328,28 @@ public class SQLiteHelper {
 	    return lettersList;
 	}
 
-	 	public List<Letter> getLettersByLastName(String lName) throws SQLException {
-	    String selectSQL = "SELECT * FROM letter WHERE lastName = ?";
-	    PreparedStatement statement = connection.prepareStatement(selectSQL);
-	    statement.setString(1, lName);
-	    ResultSet resultSet = statement.executeQuery();
-	    List<Letter> lettersList = new ArrayList<>();
-	    while(resultSet.next()) {
-	        int id = resultSet.getInt("id");
-	        String firstName = resultSet.getString("firstName");
-	        String lastName = resultSet.getString("lastName");
-	        String date = resultSet.getString("date");
-	        String school = resultSet.getString("school");
-	        String program = resultSet.getString("program");
-	        String content = resultSet.getString("content");
-	        Letter letter = new Letter(id, firstName, lastName, date, school, program, content);
-	        lettersList.add(letter);
-	    }
-	    return lettersList;
+    // Find all letters that match the supplied last name
+    public List<Letter> getLettersByLastName(String lName) throws SQLException {
+        String selectSQL = "SELECT * FROM letter WHERE lastName = ?";
+        PreparedStatement statement = connection.prepareStatement(selectSQL);
+        statement.setString(1, lName);
+        ResultSet resultSet = statement.executeQuery();
+        List<Letter> lettersList = new ArrayList<>();
+        while(resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String firstName = resultSet.getString("firstName");
+            String lastName = resultSet.getString("lastName");
+            String date = resultSet.getString("date");
+            String school = resultSet.getString("school");
+            String program = resultSet.getString("program");
+            String content = resultSet.getString("content");
+            Letter letter = new Letter(id, firstName, lastName, date, school, program, content);
+            lettersList.add(letter);
+        }
+        return lettersList;
 	}
 
+    // Replace an existing letter with new data.
 	public void updateLetter(Letter letter) throws SQLException {
 	    String updateSQL = "UPDATE letter SET firstName = ?, lastName = ?,  "
 	    		+ "date = ?, school = ?, program = ?, content =?) WHERE id=?";
@@ -359,6 +364,7 @@ public class SQLiteHelper {
 	    statement.executeUpdate();
 	}
 	
+    // Insert a brand new letter into the database
 	public void insertLetter(Letter letter) throws SQLException {
 	    String insertSQL = "INSERT into letter (firstName, lastName, date, school, program, content) VALUES (?,?,?,?,?,?)";
 	    PreparedStatement statement = connection.prepareStatement(insertSQL);

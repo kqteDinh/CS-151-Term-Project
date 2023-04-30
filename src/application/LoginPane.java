@@ -36,6 +36,7 @@ public class LoginPane extends BorderPane {
     
     private Text welcomeText;
 
+    // Sets up the basic login UI components. 
     public LoginPane(String choice) {
     	sql = SQLiteHelper.getHelper();
     	
@@ -78,10 +79,12 @@ public class LoginPane extends BorderPane {
     	}
     }
     
+    // Default constructor gives the login view.
     public LoginPane() {
     	this("login");
     }
     
+    // Let users login with password, detect default password
     private void loginView() {
         welcomeText = new Text("Welcome to the application. Please log in!");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
@@ -103,6 +106,7 @@ public class LoginPane extends BorderPane {
         setCenter(centerPane);
     }
     
+    // View to set new password for first time users.
     private void resetDefaultView() {
         welcomeText = new Text("Welcome first time user. Please set your password!");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
@@ -129,6 +133,7 @@ public class LoginPane extends BorderPane {
         setCenter(centerPane);
     }
     
+    // View to change the password after logging in.
     private void changePasswordView() {
         welcomeText = new Text("Change your password below.");
         welcomeText.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 15));
@@ -159,6 +164,7 @@ public class LoginPane extends BorderPane {
         setCenter(centerPane);
     }
 
+    // Handle login attempt
     private void userLogin() {
     	try {
 			if(sql.checkUser(password.getText())) {
@@ -185,6 +191,7 @@ public class LoginPane extends BorderPane {
 		}
     }
     
+    // Handle change password attempt
     private void changePassword() {
     	try {
     		System.out.println("Comparing passwords!");
@@ -208,6 +215,7 @@ public class LoginPane extends BorderPane {
 		}
     }
     
+    // Handle change factory password attempt
     private void updatePassword() {
     	try {
     		System.out.println("Comparing passwords!");

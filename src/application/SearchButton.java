@@ -6,7 +6,9 @@ package application;
  import javafx.scene.paint.Color;
 
  public class SearchButton extends Button {
- 	public SearchButton() {
+ 	
+	// When clicked, this button redirects the user to the search pane.
+	public SearchButton() {
  		this.setText("Search letters");
  		this.setMinWidth(100);
  		this.setOnAction(event -> {

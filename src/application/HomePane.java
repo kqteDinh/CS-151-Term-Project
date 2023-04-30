@@ -12,7 +12,8 @@ package application;
 
 
  public class HomePane extends VBox {
- 	HomePane() {
+ 	// This pane lets the user access the create letter or letter search features once they log in.
+	HomePane() {
  		HBox bannerBox = new HBox();
  		Label titleText = new Label("Premium Letter Simulator");
          titleText.setLayoutX(220);

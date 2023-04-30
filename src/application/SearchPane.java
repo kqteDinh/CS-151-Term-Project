@@ -28,10 +28,13 @@ public class SearchPane extends HBox{
 	private Label searchText;
 	private VBox results;
 	
+	// Setup the view for user to search existing letters
 	public SearchPane() {
 		searchView();
 		
 	}
+
+	// Create and attach UI elements for search
 	private void searchView(){
 		sql = SQLiteHelper.getHelper();
 		
@@ -64,6 +67,7 @@ public class SearchPane extends HBox{
         
 	}
 	
+	// Handle searching the database
 	private void searchForLetter() {
 		try {
 			results.getChildren().clear();
